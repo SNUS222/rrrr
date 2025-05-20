@@ -16,6 +16,19 @@ function addQA(question, answer) {
 
 // Функция для получения ответа на вопрос
 function getAnswer(question) {
-    question = question.toLowerCase().trim();
-    return qaData[question] || "Извините, я не знаю ответа на этот вопрос";
+    const normalizedInput = question.toLowerCase().trim();
+
+    if (normalizedInput === "") { // Handle empty input if necessary
+        return "Пожалуйста, введите вопрос."; 
+    }
+
+    for (const storedQuestion in qaData) {
+        const normalizedStoredQuestion = storedQuestion.toLowerCase().trim();
+
+        if (normalizedInput.includes(normalizedStoredQuestion) || normalizedStoredQuestion.includes(normalizedInput)) {
+            return qaData[storedQuestion];
+        }
+    }
+
+    return "Извините, я не знаю ответа на этот вопрос";
 }
